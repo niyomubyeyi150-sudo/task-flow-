@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow To Do List</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">
+                Task<span>Flow</span>
+            </a>
+           <a href="add.html" class="add-btn">Add Task</a>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <div class="container">
+
+            <section class="intro">
+                <p class="label">MY TASKS</p>
+
+                <h1>
+                    Plan your day,<br>
+                    <span>one task at a time.</span>
+                </h1>
+
+                <p class="intro-text">
+                    Organize your tasks, track your progress and
+                    stay focused on what matters most.
+                </p>
+            </section>
+
+            <section class="task-app">
+                <form class="task-form">
+                    <div class="input-group">
+                        <label for="task-input">
+                            Add a new task
+                        </label>
+                        <div class="input-row">
+                            <input
+                                type="text"
+                                id="task-input"
+                                name="task"
+                                placeholder="What needs to be done?">
+                            <button type="submit">
+                                Add Task
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="task-controls">
+                    <div class="filters">
+                        <button class="filter active">
+                            All
+                        </button>
+                        <button class="filter">
+                            Active
+                        </button>
+                        <button class="filter">
+                            Completed
+                        </button>
+                    </div>
+                    <p class="task-count">
+                        3 tasks left
+                    </p>
+                </div>
+                <ul class="task-list">
+                    <li class="task-item">
+                        <div class="task-content">
+                            <input
+                                type="checkbox"
+                                id="task-1">
+                            <label for="task-1">
+                                Complete the HTML structure
+                            </label>
+                        </div>
+
+                        <div class="task-actions">
+
+                            <button
+                                type="button"
+                                class="edit-button"
+                                aria-label="Edit task"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                type="button"
+                                class="delete-button"
+                                aria-label="Delete task"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </li>
+
+
+                    <!-- Task 2 -->
+                    <li class="task-item">
+
+                        <div class="task-content">
+
+                            <input
+                                type="checkbox"
+                                id="task-2">
+                            <label for="task-2">
+                                Design the responsive layout
+                            </label>
+
+                        </div>
+
+                        <div class="task-actions">
+
+                            <button
+                                type="button"
+                                class="edit-button"
+                                aria-label="Edit task">
+                                Edit
+                        </button>
+                            <button
+                                type="button"
+                                class="delete-button"
+                                aria-label="Delete task">
+                                Delete
+                            </button>
+                        </div>
+                    </li>
+                    <li class="task-item completed">
+                        <div class="task-content">
+                            <input
+                                type="checkbox"
+                                id="task-3"
+                                checked>
+                            <label for="task-3">
+                                Create the Firebase project
+                            </label>
+                        </div>
+                        <div class="task-actions">
+
+                            <button
+                                type="button"
+                                class="edit-button"
+                                aria-label="Edit task"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                type="button"
+                                class="delete-button"
+                                aria-label="Delete task"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+                <p class="status-message">
+                </p>
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <div class="container">
+
+            <p>
+                © 2026 TaskFlow. Stay focused and keep moving forward.
+            </p>
+
+        </div>
+
+    </footer>
+    <script src="app.js"></script>
+
+</body>
+
+</html>
+
