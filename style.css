@@ -6,12 +6,12 @@
 
 :root {
     --primary: #172554;
-    --accent:  #0b2af5;
-    --white:   #ffffff;
-    --light:   #f8fafc;
-    --text:    #172033;
-    --muted:   #64748b;
-    --border:  #e2e8f0;
+    --accent: #f59e0b;
+    --white: #ffffff;
+    --light: #f8fafc;
+    --text: #172033;
+    --muted: #64748b;
+    --border: #e2e8f0;
 }
 
 body {
@@ -107,8 +107,8 @@ color:#01040c;
 
 
 .task-app {
-    background-color: #042f45;
-    border: 1px solid #042f45;
+    background-color: var(--white);
+    border: 1px solid var(--border);
     border-radius: 18px;
     padding: 30px;
     box-shadow: 0 12px 35px rgba(23, 37, 84, 0.08);
@@ -131,7 +131,7 @@ color:#01040c;
 .input-row input {
     flex: 1;
     padding: 15px 16px;
-    border: 1px solid #042f45;
+    border: 1px solid var(--border);
     border-radius: 10px;
     outline: none;
     font-size: 15px;
@@ -139,7 +139,7 @@ color:#01040c;
 }
 
 .input-row input:focus {
-    border-color: #042f45;
+    border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
 }
 
@@ -167,7 +167,7 @@ color:#01040c;
     justify-content: space-between;
     margin: 30px 0 15px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #042f45;
+    border-bottom: 1px solid var(--border);
 }
 
 .filters {
@@ -286,6 +286,11 @@ color:#01040c;
     text-align: center;
     font-size: 13px;
 }
+
+
+/* ================================
+   RESPONSIVE DESIGN
+================================ */
 
 @media (max-width: 650px) {
 
