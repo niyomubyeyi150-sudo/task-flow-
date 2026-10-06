@@ -1,6 +1,28 @@
-// ================================
-// TASK DATA
-// ================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    addDoc
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCdpDfq90q2BJ44lAt28BLaDUQGszJAqbM",
+    authDomain: "task-flow-b7d13.firebaseapp.com",
+    projectId: "task-flow-b7d13",
+    storageBucket: "task-flow-b7d13.firebasestorage.app",
+    messagingSenderId: "1048913102957",
+    appId: "1:1048913102957:web:8c36a72ac407233a109764"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+console.log("Firebase connected successfully!");
+
+
 
 let tasks = [
     {
@@ -23,9 +45,6 @@ let tasks = [
 let currentFilter = "all";
 
 
-// ================================
-// SELECT HTML ELEMENTS
-// ================================
 
 const taskForm = document.querySelector(".task-form");
 const taskInput = document.querySelector("#task-input");
@@ -35,9 +54,6 @@ const filters = document.querySelectorAll(".filter");
 const statusMessage = document.querySelector(".status-message");
 
 
-// ================================
-// DISPLAY TASKS
-// ================================
 
 function displayTasks() {
 
@@ -45,14 +61,12 @@ function displayTasks() {
 
     let filteredTasks = tasks;
 
-    // Show active tasks
     if (currentFilter === "active") {
         filteredTasks = tasks.filter(function(task) {
             return !task.completed;
         });
     }
 
-    // Show completed tasks
     if (currentFilter === "completed") {
         filteredTasks = tasks.filter(function(task) {
             return task.completed;
@@ -60,7 +74,6 @@ function displayTasks() {
     }
 
 
-    // Create each task
     filteredTasks.forEach(function(task) {
 
         const listItem = document.createElement("li");
@@ -73,17 +86,10 @@ function displayTasks() {
 
         listItem.dataset.id = task.id;
 
-
-        // ================================
-        // TASK CONTENT
-        // ================================
-
         const taskContent = document.createElement("div");
 
         taskContent.className = "task-content";
 
-
-        // Checkbox
         const checkbox = document.createElement("input");
 
         checkbox.type = "checkbox";
@@ -91,7 +97,7 @@ function displayTasks() {
         checkbox.id = `task-${task.id}`;
 
 
-        // Label
+       
         const label = document.createElement("label");
 
         label.htmlFor = `task-${task.id}`;
@@ -102,9 +108,6 @@ function displayTasks() {
         taskContent.appendChild(label);
 
 
-        // ================================
-        // TASK ACTIONS
-        // ================================
 
         const taskActions = document.createElement("div");
 
@@ -123,7 +126,7 @@ function displayTasks() {
         );
 
 
-        // Delete button
+
         const deleteButton = document.createElement("button");
 
         deleteButton.type = "button";
@@ -139,34 +142,25 @@ function displayTasks() {
         taskActions.appendChild(deleteButton);
 
 
-        // Add everything to the list item
+
         listItem.appendChild(taskContent);
         listItem.appendChild(taskActions);
 
         taskList.appendChild(listItem);
 
 
-        // ================================
-        // CHECKBOX EVENT
-        // ================================
 
         checkbox.addEventListener("change", function() {
             toggleTask(task.id);
         });
 
 
-        // ================================
-        // EDIT EVENT
-        // ================================
 
         editButton.addEventListener("click", function() {
             editTask(task.id);
         });
 
 
-        // ================================
-        // DELETE EVENT
-        // ================================
 
         deleteButton.addEventListener("click", function() {
             deleteTask(task.id);
@@ -179,65 +173,50 @@ function displayTasks() {
 }
 
 
-// ================================
+
 // ADD TASK
-// ================================
-
-taskForm.addEventListener("submit", function(event) {
-
+taskForm.addEventListener("submit", async function(event) {
     event.preventDefault();
 
     const title = taskInput.value.trim();
 
-
-    // Check for empty task
     if (title === "") {
-
-        statusMessage.textContent =
-            "Please enter a task.";
-
+        statusMessage.textContent = "Please enter a task.";
         return;
     }
 
-
-    // Check maximum length
     if (title.length > 100) {
-
         statusMessage.textContent =
             "Task must be 100 characters or less.";
-
         return;
     }
 
+    try {
+        const docRef = await addDoc(collection(db, "tasks"), {
+            title: title,
+            completed: false
+        });
 
-    // Create new task
-    const newTask = {
-        id: Date.now(),
-        title: title,
-        completed: false
-    };
+        const newTask = {
+            id: docRef.id,
+            title: title,
+            completed: false
+        };
 
+        tasks.unshift(newTask);
 
-    // Add task at the beginning
-    tasks.unshift(newTask);
+        taskInput.value = "";
+        statusMessage.textContent = "";
+        displayTasks();
 
+        console.log("Task saved to Firestore:", docRef.id);
 
-    // Clear input
-    taskInput.value = "";
-
-    // Clear message
-    statusMessage.textContent = "";
-
-
-    // Display tasks
-    displayTasks();
-
+    } catch (error) {
+        console.error("Error adding task:", error);
+        statusMessage.textContent =
+            "Could not save task. Please try again.";
+    }
 });
-
-
-// ================================
-// COMPLETE / UNCOMPLETE TASK
-// ================================
 
 function toggleTask(taskId) {
 
@@ -253,11 +232,6 @@ function toggleTask(taskId) {
         displayTasks();
     }
 }
-
-
-// ================================
-// EDIT TASK
-// ================================
 
 function editTask(taskId) {
 
@@ -277,16 +251,13 @@ function editTask(taskId) {
     );
 
 
-    // User cancelled
     if (newTitle === null) {
         return;
     }
 
-
     const updatedTitle = newTitle.trim();
 
 
-    // Empty task
     if (updatedTitle === "") {
 
         statusMessage.textContent =
@@ -296,7 +267,6 @@ function editTask(taskId) {
     }
 
 
-    // Maximum length
     if (updatedTitle.length > 100) {
 
         statusMessage.textContent =
@@ -313,10 +283,6 @@ function editTask(taskId) {
     displayTasks();
 }
 
-
-// ================================
-// DELETE TASK
-// ================================
 
 function deleteTask(taskId) {
 
@@ -339,25 +305,15 @@ function deleteTask(taskId) {
 }
 
 
-// ================================
-// FILTER TASKS
-// ================================
-
 filters.forEach(function(button) {
 
     button.addEventListener("click", function() {
-
-        // Remove active class from all buttons
         filters.forEach(function(filter) {
             filter.classList.remove("active");
         });
 
 
-        // Add active class to clicked button
         button.classList.add("active");
-
-
-        // Decide which filter to use
         if (button.textContent.trim() === "All") {
             currentFilter = "all";
         }
@@ -378,10 +334,6 @@ filters.forEach(function(button) {
 });
 
 
-// ================================
-// TASK COUNTER
-// ================================
-
 function updateTaskCount() {
 
     const remainingTasks = tasks.filter(function(task) {
@@ -401,9 +353,5 @@ function updateTaskCount() {
     }
 }
 
-
-// ================================
-// INITIAL DISPLAY
-// ================================
 
 displayTasks();
