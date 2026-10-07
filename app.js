@@ -14,9 +14,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-
+// FIREBASE CONFIG
+// FIREBASE CONFIG
 const firebaseConfig = {
-    apiKey: "taskflow",
+    apiKey: "process.env.GOOGLE_API_KEY",
     authDomain: "task-flow-b7d13.firebaseapp.com",
     projectId: "task-flow-b7d13",
     storageBucket: "task-flow-b7d13.firebasestorage.app",
